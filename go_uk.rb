@@ -3,13 +3,7 @@ require 'serialport'
 
 
 #Determine upstairs/downstairs mode
-MODE = ""
-if File.exist?('../UPSTAIRS')
-	MODE = "UPSTAIRS"
-elsif File.exist?('../DOWNSTAIRS')
-	 MODE = "DOWNSTAIRS"
-end
-
+mode = File.exist?('../UPSTAIRS') ? "UPSTAIRS" : "DOWNSTAIRS"
 
 
 port_str = "/dev/ttyUSB0"
@@ -22,12 +16,10 @@ COLOR = "0,0,255!"
 PAUSE = 30
 
 #Determine message to use
-MSG = ""
-if MODE == "UPSTAIRS"
-	MSG = "G,O,"
-elsif MODE == "DOWNSTAIRS"
-	MSG = "U,K,"
-end
+msg = (mode == "UPSTAIRS") ? "G,O," : "U,K,"
+
+
+
 
 
 sp = SerialPort.new( port_str, baud_rate, data_bits, stop_bits, parity )
@@ -37,7 +29,7 @@ i = sp.gets.chomp
 
 begin
 	while true
-		com_str = MSG + COLOR
+		com_str = msg + COLOR
 		puts "Writing #{com_str}"
 		sp.write( com_str )
 		sleep(PAUSE)
