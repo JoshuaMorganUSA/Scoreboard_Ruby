@@ -1,6 +1,17 @@
-# Output snowday joy
+#Output snowday joy
 require 'serialport'
-# test comment
+
+
+#Determine upstairs/downstairs mode
+MODE = ""
+if File.exist?('../UPSTAIRS')
+	MODE = "UPSTAIRS"
+elsif File.exist?('../DOWNSTAIRS')
+	 MODE = "DOWNSTAIRS"
+end
+
+
+
 port_str = "/dev/ttyUSB0"
 baud_rate = 9600
 data_bits = 8
@@ -9,7 +20,15 @@ parity = SerialPort::NONE
 
 COLOR = "0,0,255!"
 PAUSE = 30
-MSG = "U,K,"
+
+#Determine message to use
+MSG = ""
+if MODE == "UPSTAIRS"
+	MSG = "G,O,"
+elsif MODE == "DOWNSTAIRS"
+	MSG = "U,K,"
+end
+
 
 sp = SerialPort.new( port_str, baud_rate, data_bits, stop_bits, parity )
 
