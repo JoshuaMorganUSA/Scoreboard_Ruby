@@ -1,6 +1,6 @@
 # Output snowday joy
 require 'serialport'
-
+# test comment
 port_str = "/dev/ttyUSB0"
 baud_rate = 9600
 data_bits = 8
