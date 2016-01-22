@@ -9,7 +9,7 @@ parity = SerialPort::NONE
 
 COLOR = "0,0,255!"
 PAUSE = 30
-MSG = "G,O,"
+MSG = "U,K,"
 
 sp = SerialPort.new( port_str, baud_rate, data_bits, stop_bits, parity )
 
