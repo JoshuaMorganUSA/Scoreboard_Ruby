@@ -1,9 +1,9 @@
-Kentucky:0,93,170
+Kentucky:0,0,140
 Auburn:95,40,13
 Arkansas:157,34,53
 Vanderbilt:162,132,72
 Missouri:241,184,45
-Kansas:0,34,180
+Kansas:100,0,0
 Tennessee:255,130,0
 Florida:243,112,33
 Georgia:215,0,63
@@ -15,3 +15,4 @@ Nevada:120,34,151
 Boise State:23,251,123
 Penn:20,0,200
 Saint Joe's:200,20,0
+Oklahoma:100,0,0

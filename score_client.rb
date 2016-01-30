@@ -7,7 +7,7 @@ require_relative 'team_colors'
 require 'serialport'
 
 TEAM = "Kentucky"
-MODE = "TEAM"
+MODE = "OPPONENT"
 
 # ScoreBoardClient
 # Description:
@@ -62,14 +62,6 @@ class ScoreBoardClient
 	end # update_scoreboard
 end #ScoreBoardClient class
 
-# Invoke scoreboard
-scoreboard = ScoreBoardClient.new
-
-# Invoke Team Colors
-team_colors = TeamColors.new
-TEAM_COLOR = team_colors.get_colors( TEAM )
-OPPONENT = ESPN.get_opponent
-OPPONENT_COLOR = team_colors.get_colors( OPPONENT )
 
 # Set up constants for the serial port (via USB)
 port_str = "/dev/ttyUSB0"
@@ -77,8 +69,35 @@ baud_rate = 9600
 data_bits = 8
 stop_bits = 1
 parity = SerialPort::NONE
+serial_port = SerialPort.new( port_str, baud_rate, data_bits, stop_bits, parity )
+
+# Invoke scoreboard
+scoreboard = {}
+game_is_live = false
+while !game_is_live # Keep trying to load game until it is live
+	begin
+		scoreboard = ScoreBoardClient.new
+		game_is_live = true
+	rescue => e
+		puts e.message
+		puts "Printing GO:UK"
+		if MODE == "TEAM"
+			serial_port.write( "G,O,0,0,140!")
+		else
+			serial_port.write( "U,K,0,0,140!")
+		end
+		# Run GO UK
+		sleep(30)
+	end
+end
+
 begin
-	serial_port = SerialPort.new( port_str, baud_rate, data_bits, stop_bits, parity )
+	# Invoke Team Colors
+	team_colors = TeamColors.new
+	TEAM_COLOR = team_colors.get_colors( TEAM )
+	OPPONENT = ESPN.get_opponent
+	OPPONENT_COLOR = team_colors.get_colors( OPPONENT )
+
 	while ESPN.is_team_live?
 		scoreboard.update_scoreboard( serial_port )
 		sleep(10)
